@@ -2,7 +2,7 @@ Fire Flower Board
 =================
 
 [![Build Status](https://travis-ci.org/davidleston/FireFlowerBoard.svg?branch=master)](https://travis-ci.org/davidleston/FireFlowerBoard)
-[![Coverage Status](https://coveralls.io/repos/davidleston/FireFlowerBoard/badge.svg?branch=master)](https://coveralls.io/r/davidleston/FireFlowerBoard?branch=master)
+[![Coverage Status](https://coveralls.io/repos/davidleston/FireFlowerBoard/badge.svg?branch=master&service=github)](https://coveralls.io/github/davidleston/FireFlowerBoard?branch=master)
 ![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
 
 Fire Flower is a game similar to [Hanabi](https://en.wikipedia.org/wiki/Hanabi_(card_game)). This implementation of Fire Flower is intended to be used with with an algorithm (AI) representing each player.
