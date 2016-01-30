@@ -11,5 +11,5 @@ Fire Flower is a game similar to [Hanabi](https://en.wikipedia.org/wiki/Hanabi_(
 
 Instantiate an instance of the <code>Player</code> interface for each player in a game. Then pass the collection of players to <code>Game.create</code>.
 
-For instructions on how to include this library using Maven or Gradle
-visit https://jitpack.io/#davidleston/FireFlowerBoard/v0.1.0
+For instructions on how to include this library in your project visit
+[![](https://jitpack.io/v/davidleston/GuavaCollectors.svg)](https://jitpack.io/#davidleston/GuavaCollectors)
