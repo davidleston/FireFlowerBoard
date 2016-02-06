@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public final class Game {
@@ -19,7 +20,7 @@ public final class Game {
 
   private final HandCollection hands;
   private final Iterator<Tile> tilesToBeDrawn;
-  private final Collection<Event.Visitor> eventVisitors = new ArrayList<>();
+  private final Consumer<Event> eventVisitors;
   private final EventQueueCollection eventQueues;
   private final PlayedTiles playedTiles;
   private final int numberOfPlayers;
@@ -37,15 +38,13 @@ public final class Game {
     this.handSize = numberOfPlayers > 3 ? handSizeForFourOrMorePlayers : handSizeForThreeOrFewerPlayers;
 
     this.hands = new HandCollection(numberOfPlayers, handSize);
-    eventVisitors.add(this.hands.eventVisitor());
-
     this.eventQueues = new EventQueueCollection(numberOfPlayers);
-    eventVisitors.add(this.eventQueues.eventVisitor());
-
-    eventVisitors.add(new HintCountEnforcer());
-
     this.playedTiles = new PlayedTiles();
-    eventVisitors.add(this.playedTiles.eventVisitor());
+
+    eventVisitors = this.hands.eventVisitor()
+        .andThen(this.eventQueues.eventVisitor())
+        .andThen(new HintCountEnforcer())
+        .andThen(this.playedTiles.eventVisitor());
   }
 
 
@@ -218,7 +217,7 @@ public final class Game {
   }
 
   private void addEvent(Event event) {
-    eventVisitors.forEach(event::visit);
+    eventVisitors.accept(event);
   }
 
   @Override

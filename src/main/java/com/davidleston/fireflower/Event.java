@@ -1,5 +1,7 @@
 package com.davidleston.fireflower;
 
+import java.util.function.Consumer;
+
 public abstract class Event {
   public final int sourcePlayer;
 
@@ -9,12 +11,15 @@ public abstract class Event {
 
   public abstract void visit(Visitor visitor);
 
-  public interface Visitor {
+  public interface Visitor extends Consumer<Event> {
     void doColorHint(ColorHintEvent colorHintEvent);
     void doDiscard(DiscardEvent discardEvent);
     void doDraw(DrawEvent drawEvent);
     void doNumberHint(NumberHintEvent numberHintEvent);
     void doPlay(PlayEvent playEvent);
     void doReorder(ReorderEvent reorderEvent);
+    default void accept(Event event) {
+      event.visit(this);
+    }
   }
 }

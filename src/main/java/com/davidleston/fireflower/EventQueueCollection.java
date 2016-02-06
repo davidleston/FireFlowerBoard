@@ -2,6 +2,7 @@ package com.davidleston.fireflower;
 
 import javax.annotation.CheckReturnValue;
 import java.util.Arrays;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 final class EventQueueCollection {
@@ -31,7 +32,7 @@ final class EventQueueCollection {
 
       @Override
       public void doDiscard(DiscardEvent discardEvent) {
-        informEveryone(discardEvent);
+        informOtherPlayers(discardEvent);
       }
 
       @Override
@@ -46,7 +47,7 @@ final class EventQueueCollection {
 
       @Override
       public void doPlay(PlayEvent playEvent) {
-        informEveryone(playEvent);
+        informOtherPlayers(playEvent);
       }
 
       @Override
@@ -54,18 +55,10 @@ final class EventQueueCollection {
         informOtherPlayers(reorderEvent);
       }
 
-      private void informEveryone(Event event) {
-        for (Stream.Builder<Event> anEventsToBeSeen : eventsToBeSeen) {
-          anEventsToBeSeen.accept(event);
-        }
-      }
-
       private void informOtherPlayers(Event event) {
-        for (int i = 0; i < eventsToBeSeen.length; i++) {
-          if (i != event.sourcePlayer) {
-            eventsToBeSeen[i].accept(event);
-          }
-        }
+        IntStream.range(0, eventsToBeSeen.length)
+            .filter(i -> i != event.sourcePlayer)
+            .forEach(i -> eventsToBeSeen[i].accept(event));
       }
     };
   }

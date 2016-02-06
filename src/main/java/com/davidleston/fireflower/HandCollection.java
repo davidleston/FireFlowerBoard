@@ -36,7 +36,7 @@ final class HandCollection {
     List<Tile> tilesInHand = hands.get(player);
     return IntStream.range(0, tilesInHand.size())
         .filter(index -> predicate.test(tilesInHand.get(index)))
-        .mapToObj(index -> index)
+        .boxed()
         .collect(GuavaCollectors.immutableSet());
   }
 

@@ -6,7 +6,7 @@
 
   <groupId>davidleston</groupId>
   <artifactId>FireFlowerBoard</artifactId>
-  <version>0.1.1</version>
+  <version>0.2.0</version>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
   <description>A game similar to Hanabi.</description>
@@ -37,7 +37,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.3</version>
+        <version>3.5</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -46,7 +46,7 @@
       <plugin>
         <groupId>org.eluder.coveralls</groupId>
         <artifactId>coveralls-maven-plugin</artifactId>
-        <version>4.0.0</version>
+        <version>4.1.0</version>
         <configuration>
           <repoToken>${env.repoToken}</repoToken>
         </configuration>
