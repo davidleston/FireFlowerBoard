@@ -27,10 +27,10 @@ public enum TileSet {
     int numberOfTiles = IntStream.of(distribution).sum() * colors().size();
     List<Tile> tiles = new ArrayList<>(numberOfTiles);
     for (Color color : colors()) {
-      for (int number = 1; number <= distribution.length; number++) {
+      for (int number = 0; number < distribution.length; number++) {
         int quantityOfNumber = distribution[number];
         // add the same object multiple times to save memory
-        Tile tile = new Tile(color, number);
+        Tile tile = new Tile(color, number + 1);
         for (int quantity = 0; quantity < quantityOfNumber; quantity++) {
           tiles.add(tile);
         }

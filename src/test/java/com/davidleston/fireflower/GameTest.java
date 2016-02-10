@@ -56,7 +56,7 @@ public class GameTest {
               for (int i = 0; i < Game.handSizeForThreeOrFewerPlayers; i++) {
                 DrawEvent drawEvent = (DrawEvent) eventIterator.next();
                 assertThat(drawEvent.tile)
-                    .isEqualToComparingFieldByField(new Tile(Color.values()[1], i + 1));
+                    .isEqualTo(new Tile(Color.values()[1], i + 1));
               }
               assertThat(eventIterator)
                   .isEmpty();
@@ -283,7 +283,7 @@ public class GameTest {
               }
               return Action.discard(Game.handSizeForThreeOrFewerPlayers - 1, event -> {
                 assertThat(event.tileDiscarded)
-                    .isEqualToComparingFieldByField(peekedTile.get());
+                    .isEqualTo(peekedTile.get());
                 throw new EndGameFromTestException();
               });
             },
@@ -631,7 +631,7 @@ public class GameTest {
               }
               return Action.discard(0, event -> {
                 assertThat(event.tileDiscarded)
-                    .isEqualToComparingFieldByField(drawnTile.get());
+                    .isEqualTo(drawnTile.get());
                 throw new EndGameFromTestException();
               });
             },

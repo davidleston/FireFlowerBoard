@@ -182,7 +182,7 @@ public final class Game {
           }
 
           private boolean isReordering(ImmutableSet<Integer> newPositions) {
-            return Ordering.natural().isOrdered(newPositions);
+            return !Ordering.natural().isOrdered(newPositions);
           }
         });
 
