@@ -1,6 +1,7 @@
 package com.davidleston.fireflower;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public enum TileSet {
   WithRainbow() {
@@ -21,12 +22,17 @@ public enum TileSet {
   protected abstract Set<Color> colors();
 
   Iterator<Tile> shuffle(long randomSeed) {
-    List<Tile> tiles = new ArrayList<>();
     int[] distribution = new int[]{3,2,2,2,1};
-    for (int number = 0; number < distribution.length; number++) {
-      for (int quantity = 0; quantity < distribution[number]; quantity++) {
-        for (Color color : colors()) {
-          tiles.add(new Tile(color, number + 1));
+    // save array resizes and memory utilization
+    int numberOfTiles = IntStream.of(distribution).sum() * colors().size();
+    List<Tile> tiles = new ArrayList<>(numberOfTiles);
+    for (Color color : colors()) {
+      for (int number = 1; number <= distribution.length; number++) {
+        int quantityOfNumber = distribution[number];
+        // add the same object multiple times to save memory
+        Tile tile = new Tile(color, number);
+        for (int quantity = 0; quantity < quantityOfNumber; quantity++) {
+          tiles.add(tile);
         }
       }
     }

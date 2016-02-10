@@ -4,10 +4,14 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Ordering;
 
-import java.util.*;
+import java.util.Iterator;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import static com.davidleston.stream.GuavaCollectors.immutableSet;
 
 public final class Game {
   public static final int handSizeForThreeOrFewerPlayers = 5;
@@ -171,25 +175,14 @@ public final class Game {
           }
 
           private void ensureReorderContainsAllPositions(ImmutableSet<Integer> newPositions) {
-            Set<Integer> copy = new HashSet<>(newPositions);
-            for (int i = 0; i < handSize; i++) {
-              if (!copy.remove(i)) {
-                throw new InvalidCollectionOfPositionsException("Missing position " + i);
-              }
-            }
-            if (!copy.isEmpty()) {
-              throw new InvalidCollectionOfPositionsException("Unexpected positions: " + copy);
+            ImmutableSet<Integer> expectedPositions = IntStream.range(0, handSize).boxed().collect(immutableSet());
+            if (!expectedPositions.equals(newPositions)) {
+              throw new InvalidCollectionOfPositionsException(expectedPositions, newPositions);
             }
           }
 
           private boolean isReordering(ImmutableSet<Integer> newPositions) {
-            Iterator<Integer> iterator = newPositions.iterator();
-            for (int i = 0; i < handSize; i++) {
-              if (iterator.next() != i) {
-                return true;
-              }
-            }
-            return false;
+            return Ordering.natural().isOrdered(newPositions);
           }
         });
 
