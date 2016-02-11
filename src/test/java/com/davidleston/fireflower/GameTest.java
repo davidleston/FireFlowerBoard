@@ -282,7 +282,7 @@ public class GameTest {
                 return Action.play(0, null);
               }
               return Action.discard(Game.handSizeForThreeOrFewerPlayers - 1, event -> {
-                assertThat(event.tileDiscarded)
+                assertThat(event.tile)
                     .isEqualTo(peekedTile.get());
                 throw new EndGameFromTestException();
               });
@@ -436,13 +436,13 @@ public class GameTest {
         new NumberHintEvent(0, 1, ImmutableSet.of(0), tilesToPlay.get(0).number),
         new NumberHintEvent(0, 1, ImmutableSet.of(0), tilesToPlay.get(0).number),
         new NumberHintEvent(0, 1, ImmutableSet.of(0), tilesToPlay.get(0).number),
-        new PlayEvent(0, tilesToPlay.get(0), 0, true),
+        new PlayEvent(0, 0, tilesToPlay.get(0), true),
         new DrawEvent(0, allTilesInOrder.next()),
-        new PlayEvent(0, tilesToPlay.get(1), 0, true),
+        new PlayEvent(0, 0, tilesToPlay.get(1), true),
         new DrawEvent(0, allTilesInOrder.next()),
-        new PlayEvent(0, tilesToPlay.get(2), 0, true),
+        new PlayEvent(0, 0, tilesToPlay.get(2), true),
         new DrawEvent(0, allTilesInOrder.next()),
-        new PlayEvent(0, tilesToPlay.get(3), 0, true),
+        new PlayEvent(0, 0, tilesToPlay.get(3), true),
         new DrawEvent(0, allTilesInOrder.next())
     ));
   }
@@ -478,13 +478,13 @@ public class GameTest {
         new DrawEvent(1, allTilesInOrder.next()),
         new DrawEvent(1, allTilesInOrder.next()),
         new DrawEvent(1, allTilesInOrder.next()),
-        new PlayEvent(0, tilesToPlay.get(0), 0, true),
+        new PlayEvent(0, 0, tilesToPlay.get(0), true),
         new DrawEvent(0, allTilesInOrder.next()),
-        new PlayEvent(0, tilesToPlay.get(1), 0, true),
+        new PlayEvent(0, 0, tilesToPlay.get(1), true),
         new DrawEvent(0, allTilesInOrder.next()),
-        new PlayEvent(0, tilesToPlay.get(2), 0, true),
+        new PlayEvent(0, 0, tilesToPlay.get(2), true),
         new DrawEvent(0, allTilesInOrder.next()),
-        new PlayEvent(0, tilesToPlay.get(3), 0, true),
+        new PlayEvent(0, 0, tilesToPlay.get(3), true),
         new DrawEvent(0, allTilesInOrder.next())
     ));
 
@@ -535,11 +535,11 @@ public class GameTest {
         new NumberHintEvent(0, 1, ImmutableSet.of(0), tilesToPlay.get(0).number),
         new NumberHintEvent(0, 1, ImmutableSet.of(0), tilesToPlay.get(0).number),
         new NumberHintEvent(0, 1, ImmutableSet.of(0), tilesToPlay.get(0).number),
-        new PlayEvent(0, tilesToPlay.get(0), 0, true),
+        new PlayEvent(0, 0, tilesToPlay.get(0), true),
         new DrawEvent(0, allTilesInOrder.next()),
-        new PlayEvent(0, tilesToPlay.get(1), 0, true),
+        new PlayEvent(0, 0, tilesToPlay.get(1), true),
         new DrawEvent(0, allTilesInOrder.next()),
-        new PlayEvent(0, tilesToPlay.get(2), 0, true),
+        new PlayEvent(0, 0, tilesToPlay.get(2), true),
         new DrawEvent(0, allTilesInOrder.next())
     ));
   }
@@ -568,7 +568,7 @@ public class GameTest {
     List<Event> eventsInThePast = new ArrayList<>();
     for (int i = 0; i < 29; i++) {
       eventsInThePast.add(new DrawEvent(0, allTilesInOrder.peek()));
-      eventsInThePast.add(new PlayEvent(0, allTilesInOrder.next(), 0, true));
+      eventsInThePast.add(new PlayEvent(0, 0, allTilesInOrder.next(), true));
     }
     eventsInThePast.add(new DrawEvent(0, allTilesInOrder.next()));
 
@@ -630,7 +630,7 @@ public class GameTest {
                 return Action.play(0, null);
               }
               return Action.discard(0, event -> {
-                assertThat(event.tileDiscarded)
+                assertThat(event.tile)
                     .isEqualTo(drawnTile.get());
                 throw new EndGameFromTestException();
               });
@@ -663,7 +663,7 @@ public class GameTest {
   @Test
   public void testToStringsForCodeCoverage() {
     Tile tile = new Tile(Color.values()[0], 1);
-    PlayEvent playEvent = new PlayEvent(0, tile, 0, true);
+    PlayEvent playEvent = new PlayEvent(0, 0, tile, true);
     new ColorHintAction(0, Color.values()[0]).toString();
     new ColorHintEvent(0, 1, unorderedPositions, Color.values()[0]).toString();
     new DiscardAction(0, null).toString();

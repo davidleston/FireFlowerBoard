@@ -48,7 +48,7 @@ final class HandCollection {
 
       @Override
       public void doDiscard(DiscardEvent discardEvent) {
-        hands.get(discardEvent.sourcePlayer).remove(discardEvent.positionDiscarded);
+        hands.get(discardEvent.sourcePlayer).remove(discardEvent.position);
       }
 
       @Override

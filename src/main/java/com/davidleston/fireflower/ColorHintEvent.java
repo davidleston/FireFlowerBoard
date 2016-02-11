@@ -1,7 +1,6 @@
 package com.davidleston.fireflower;
 
 
-import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
 
 public final class ColorHintEvent extends HintEvent {
@@ -19,12 +18,8 @@ public final class ColorHintEvent extends HintEvent {
 
   @Override
   public String toString() {
-    return MoreObjects
-        .toStringHelper(this)
-        .add("sourcePlayer", sourcePlayer)
-        .add("playerReceivingHing", playerReceivingHint)
+    return toStringHelper()
         .add("color", color)
-        .add("hintedPositions", hintedPositions)
         .toString();
   }
 }

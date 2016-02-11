@@ -1,7 +1,5 @@
 package com.davidleston.fireflower;
 
-import com.google.common.base.MoreObjects;
-
 public final class DrawEvent extends Event {
   public final Tile tile;
 
@@ -17,9 +15,7 @@ public final class DrawEvent extends Event {
 
   @Override
   public String toString() {
-    return MoreObjects
-        .toStringHelper(this)
-        .add("sourcePlayer", sourcePlayer)
+    return toStringHelper()
         .add("tile", tile)
         .toString();
   }

@@ -105,7 +105,7 @@ public final class Game {
           public void doPlay(PlayAction playAction) {
             Tile playedTile = hands.get(currentPlayer, playAction.position);
             boolean wasSuccessful = playedTiles.nextPlayable(playedTile.color) == playedTile.number;
-            PlayEvent event = new PlayEvent(currentPlayer, playedTile, playAction.position, wasSuccessful);
+            PlayEvent event = new PlayEvent(currentPlayer, playAction.position, playedTile, wasSuccessful);
             addEvent(event);
             if (!wasSuccessful) {
               strikeCount++;

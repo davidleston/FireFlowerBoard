@@ -1,5 +1,7 @@
 package com.davidleston.fireflower;
 
+import com.google.common.base.MoreObjects;
+
 import java.util.function.Consumer;
 
 public abstract class Event {
@@ -10,6 +12,12 @@ public abstract class Event {
   }
 
   public abstract void visit(Visitor visitor);
+
+  protected MoreObjects.ToStringHelper toStringHelper() {
+    return MoreObjects
+        .toStringHelper(this)
+        .add("sourcePlayer", sourcePlayer);
+  }
 
   public interface Visitor extends Consumer<Event> {
     void doColorHint(ColorHintEvent colorHintEvent);

@@ -1,5 +1,6 @@
 package com.davidleston.fireflower;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
 
 abstract class HintEvent extends Event {
@@ -13,5 +14,12 @@ abstract class HintEvent extends Event {
     }
     this.playerReceivingHint = playerReceivingHint;
     this.hintedPositions = hintedPositions;
+  }
+
+  @Override
+  protected final MoreObjects.ToStringHelper toStringHelper() {
+    return super.toStringHelper()
+        .add("playerReceivingHing", playerReceivingHint)
+        .add("hintedPositions", hintedPositions);
   }
 }

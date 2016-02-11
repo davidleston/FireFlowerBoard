@@ -1,19 +1,12 @@
 package com.davidleston.fireflower;
 
-import com.google.common.base.MoreObjects;
-
-public final class PlayEvent extends Event {
-  public final Tile tile;
-  public final int position;
+public final class PlayEvent extends TileRevealedEvent {
   public final boolean wasSuccessful;
 
-  PlayEvent(int sourcePlayer, Tile tile, int position, boolean wasSuccessful) {
-    super(sourcePlayer);
-    this.tile = tile;
-    this.position = position;
+  PlayEvent(int sourcePlayer, int positionPlayed, Tile tilePlayed, boolean wasSuccessful) {
+    super(sourcePlayer, positionPlayed, tilePlayed);
     this.wasSuccessful = wasSuccessful;
   }
-
 
   @Override
   public void visit(Visitor visitor) {
@@ -22,10 +15,7 @@ public final class PlayEvent extends Event {
 
   @Override
   public String toString() {
-    return MoreObjects
-        .toStringHelper(this)
-        .add("tile", tile)
-        .add("position", position)
+    return toStringHelper()
         .add("wasSuccessful", wasSuccessful)
         .toString();
   }
