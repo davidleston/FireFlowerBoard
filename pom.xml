@@ -6,7 +6,7 @@
 
   <groupId>davidleston</groupId>
   <artifactId>FireFlowerBoard</artifactId>
-  <version>0.3.0</version>
+  <version>0.3.1</version>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
   <description>A game similar to Hanabi.</description>

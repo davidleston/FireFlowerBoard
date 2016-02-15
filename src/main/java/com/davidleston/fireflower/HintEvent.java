@@ -4,8 +4,9 @@ import com.google.common.collect.ImmutableSet;
 
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
+import java.util.function.Predicate;
 
-public final class HintEvent extends Event {
+public final class HintEvent extends Event implements Predicate<Tile> {
   public final int playerReceivingHint;
   public final ImmutableSet<Integer> hintedPositions;
   private final HintAction hintAction;
@@ -30,6 +31,11 @@ public final class HintEvent extends Event {
   @Override
   public void handleEvent(Operation operation) {
     operation.doHint(this);
+  }
+
+  @Override
+  public boolean test(Tile tile) {
+    return hintAction.test(tile);
   }
 
   @Override
