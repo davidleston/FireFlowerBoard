@@ -11,8 +11,8 @@ public final class ReorderEvent extends Event {
   }
 
   @Override
-  public void visit(Visitor visitor) {
-    visitor.doReorder(this);
+  public void handleEvent(Operation operation) {
+    operation.doReorder(this);
   }
 
   @Override

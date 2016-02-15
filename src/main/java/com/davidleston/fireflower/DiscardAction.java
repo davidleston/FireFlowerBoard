@@ -2,6 +2,8 @@ package com.davidleston.fireflower;
 
 import com.google.common.base.MoreObjects;
 
+import java.util.function.Consumer;
+
 final class DiscardAction extends Action {
   final int position;
   final ReorderAction<DiscardEvent> reorderAction;
@@ -12,8 +14,8 @@ final class DiscardAction extends Action {
   }
 
   @Override
-  void visit(Visitor visitor) {
-    visitor.doDiscard(this);
+  void handleAction(Consumer<PlayAction> doPlay, Consumer<DiscardAction> doDiscard, Consumer<HintAction> doHint) {
+    doDiscard.accept(this);
   }
 
   @Override

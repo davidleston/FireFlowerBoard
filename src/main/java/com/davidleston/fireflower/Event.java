@@ -11,7 +11,7 @@ public abstract class Event {
     this.sourcePlayer = sourcePlayer;
   }
 
-  public abstract void visit(Visitor visitor);
+  public abstract void handleEvent(Operation operation);
 
   protected MoreObjects.ToStringHelper toStringHelper() {
     return MoreObjects
@@ -19,15 +19,47 @@ public abstract class Event {
         .add("sourcePlayer", sourcePlayer);
   }
 
-  public interface Visitor extends Consumer<Event> {
-    void doColorHint(ColorHintEvent colorHintEvent);
+  public interface Operation extends Consumer<Event> {
     void doDiscard(DiscardEvent discardEvent);
     void doDraw(DrawEvent drawEvent);
-    void doNumberHint(NumberHintEvent numberHintEvent);
+    void doHint(HintEvent hintEvent);
     void doPlay(PlayEvent playEvent);
     void doReorder(ReorderEvent reorderEvent);
     default void accept(Event event) {
-      event.visit(this);
+      event.handleEvent(this);
+    }
+    static Operation create(
+        Consumer<DiscardEvent> doDiscard,
+        Consumer<DrawEvent> doDraw,
+        Consumer<HintEvent> doHint,
+        Consumer<PlayEvent> doPlay,
+        Consumer<ReorderEvent> doReorder) {
+      return new Operation() {
+        @Override
+        public void doDiscard(DiscardEvent discardEvent) {
+          doDiscard.accept(discardEvent);
+        }
+
+        @Override
+        public void doDraw(DrawEvent drawEvent) {
+          doDraw.accept(drawEvent);
+        }
+
+        @Override
+        public void doHint(HintEvent hintEvent) {
+          doHint.accept(hintEvent);
+        }
+
+        @Override
+        public void doPlay(PlayEvent playEvent) {
+          doPlay.accept(playEvent);
+        }
+
+        @Override
+        public void doReorder(ReorderEvent reorderEvent) {
+          doReorder.accept(reorderEvent);
+        }
+      };
     }
   }
 }

@@ -6,7 +6,7 @@
 
   <groupId>davidleston</groupId>
   <artifactId>FireFlowerBoard</artifactId>
-  <version>0.2.1</version>
+  <version>0.3.0</version>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
   <description>A game similar to Hanabi.</description>
@@ -130,11 +130,6 @@
       <artifactId>assertj-core</artifactId>
       <version>3.3.0</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-      <version>3.0.1</version>
     </dependency>
   </dependencies>
 

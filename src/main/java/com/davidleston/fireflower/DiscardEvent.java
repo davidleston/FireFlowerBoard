@@ -7,8 +7,8 @@ public final class DiscardEvent extends TileRevealedEvent {
   }
 
   @Override
-  public void visit(Event.Visitor visitor) {
-    visitor.doDiscard(this);
+  public void handleEvent(Operation operation) {
+    operation.doDiscard(this);
   }
 
   @Override

@@ -9,8 +9,8 @@ public final class DrawEvent extends Event {
   }
 
   @Override
-  public void visit(Visitor visitor) {
-    visitor.doDraw(this);
+  public void handleEvent(Operation operation) {
+    operation.doDraw(this);
   }
 
   @Override

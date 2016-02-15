@@ -2,13 +2,8 @@ package com.davidleston.fireflower;
 
 import com.google.common.base.MoreObjects;
 
-final class HintCountEnforcer implements Event.Visitor {
+final class HintCountEnforcer implements Event.Operation {
   private int hintsLeft = Game.numberOfHintTokens;
-
-  @Override
-  public void doColorHint(ColorHintEvent colorHintEvent) {
-    hint();
-  }
 
   @Override
   public void doDiscard(DiscardEvent discardEvent) {
@@ -23,8 +18,11 @@ final class HintCountEnforcer implements Event.Visitor {
   }
 
   @Override
-  public void doNumberHint(NumberHintEvent numberHintEvent) {
-    hint();
+  public void doHint(HintEvent hintEvent) {
+    if (hintsLeft == 0) {
+      throw new CannotHintException();
+    }
+    hintsLeft--;
   }
 
   @Override
@@ -36,13 +34,6 @@ final class HintCountEnforcer implements Event.Visitor {
 
   @Override
   public void doReorder(ReorderEvent reorderEvent) {
-  }
-
-  private void hint() {
-    if (hintsLeft == 0) {
-      throw new CannotHintException();
-    }
-    hintsLeft--;
   }
 
   @Override

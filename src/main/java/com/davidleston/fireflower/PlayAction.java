@@ -2,6 +2,8 @@ package com.davidleston.fireflower;
 
 import com.google.common.base.MoreObjects;
 
+import java.util.function.Consumer;
+
 final class PlayAction extends Action {
   final int position;
   final ReorderAction<PlayEvent> reorderAction;
@@ -12,8 +14,8 @@ final class PlayAction extends Action {
   }
 
   @Override
-  void visit(Visitor visitor) {
-    visitor.doPlay(this);
+  void handleAction(Consumer<PlayAction> doPlay, Consumer<DiscardAction> doDiscard, Consumer<HintAction> doHint) {
+    doPlay.accept(this);
   }
 
   @Override

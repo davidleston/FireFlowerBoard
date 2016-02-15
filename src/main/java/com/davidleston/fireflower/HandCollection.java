@@ -6,11 +6,11 @@ import com.google.common.collect.ImmutableSet;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 final class HandCollection {
+  final Event.Operation eventVisitor;
   private final ImmutableList<List<Tile>> hands;
 
   HandCollection(int numberOfPlayers, int handSize) {
@@ -18,63 +18,30 @@ final class HandCollection {
         .<List<Tile>>generate(() -> new ArrayList<>(handSize))
         .limit(numberOfPlayers)
         .collect(GuavaCollectors.immutableList());
-  }
+    eventVisitor = Event.Operation.create(
+        discardEvent -> hands.get(discardEvent.sourcePlayer).remove(discardEvent.position),
+        drawEvent -> hands.get(drawEvent.sourcePlayer).add(0, drawEvent.tile),
+        hintEvent -> {},
+        playEvent -> hands.get(playEvent.sourcePlayer).remove(playEvent.position),
+        reorderEvent -> {
+          List<Tile> hand = hands.get(reorderEvent.sourcePlayer);
+          List<Tile> oldHand = new ArrayList<>(hand);
+          hand.clear();
+          for (int newPosition : reorderEvent.newPositions) {
+            hand.add(oldHand.get(newPosition));
+          }
+        });  }
 
   Tile get(int player, int position) {
     return hands.get(player).get(position);
   }
 
-  ImmutableSet<Integer> indeciesOfMatchingTiles(int player, Color color) {
-    return indeciesOfMatchingTiles(player, tile -> tile.color == color);
-  }
-
-  ImmutableSet<Integer> indeciesOfMatchingTiles(int player, int number) {
-    return indeciesOfMatchingTiles(player, tile -> tile.number == number);
-  }
-
-  private ImmutableSet<Integer> indeciesOfMatchingTiles(int player, Predicate<Tile> predicate) {
-    List<Tile> tilesInHand = hands.get(player);
+  ImmutableSet<Integer> positionsOfMatchingTiles(HintAction hint) {
+    List<Tile> tilesInHand = hands.get(hint.playerReceivingHint);
     return IntStream.range(0, tilesInHand.size())
-        .filter(index -> predicate.test(tilesInHand.get(index)))
+        .filter(index -> hint.test(tilesInHand.get(index)))
         .boxed()
         .collect(GuavaCollectors.immutableSet());
-  }
-
-  Event.Visitor eventVisitor() {
-    return new Event.Visitor() {
-      @Override
-      public void doColorHint(ColorHintEvent colorHintEvent) {
-      }
-
-      @Override
-      public void doDiscard(DiscardEvent discardEvent) {
-        hands.get(discardEvent.sourcePlayer).remove(discardEvent.position);
-      }
-
-      @Override
-      public void doDraw(DrawEvent drawEvent) {
-        hands.get(drawEvent.sourcePlayer).add(drawEvent.tile);
-      }
-
-      @Override
-      public void doNumberHint(NumberHintEvent numberHintEvent) {
-      }
-
-      @Override
-      public void doPlay(PlayEvent playEvent) {
-        hands.get(playEvent.sourcePlayer).remove(playEvent.position);
-      }
-
-      @Override
-      public void doReorder(ReorderEvent reorderEvent) {
-        List<Tile> hand = hands.get(reorderEvent.sourcePlayer);
-        List<Tile> oldHand = new ArrayList<>(hand);
-        hand.clear();
-        for (int newPosition : reorderEvent.newPositions) {
-          hand.add(oldHand.get(newPosition));
-        }
-      }
-    };
   }
 
   @Override

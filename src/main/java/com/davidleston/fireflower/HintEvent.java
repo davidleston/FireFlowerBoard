@@ -1,25 +1,46 @@
 package com.davidleston.fireflower;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
 
-abstract class HintEvent extends Event {
+import java.util.function.Consumer;
+import java.util.function.IntConsumer;
+
+public final class HintEvent extends Event {
   public final int playerReceivingHint;
   public final ImmutableSet<Integer> hintedPositions;
+  private final HintAction hintAction;
 
-  HintEvent(int sourcePlayer, int playerReceivingHint, ImmutableSet<Integer> hintedPositions) {
+  HintEvent(int sourcePlayer, ImmutableSet<Integer> hintedPositions, HintAction hintAction) {
     super(sourcePlayer);
-    if (sourcePlayer == playerReceivingHint) {
+    if (hintedPositions.isEmpty()) {
+      throw new HintMatchesNoTilesException(hintAction);
+    }
+    if (sourcePlayer == hintAction.playerReceivingHint) {
       throw new CannotHintSelfException();
     }
-    this.playerReceivingHint = playerReceivingHint;
+    this.playerReceivingHint = hintAction.playerReceivingHint;
     this.hintedPositions = hintedPositions;
+    this.hintAction = hintAction;
+  }
+
+  public void handleHint(Consumer<Color> doColor, IntConsumer doNumber) {
+    hintAction.handleHint(doColor, doNumber);
   }
 
   @Override
-  protected final MoreObjects.ToStringHelper toStringHelper() {
-    return super.toStringHelper()
+  public void handleEvent(Operation operation) {
+    operation.doHint(this);
+  }
+
+  @Override
+  public String toString() {
+    handleHint(
+        color -> toStringHelper().add("hint", color),
+        number -> toStringHelper().add("hint", number)
+    );
+    return toStringHelper()
         .add("playerReceivingHing", playerReceivingHint)
-        .add("hintedPositions", hintedPositions);
+        .add("hintedPositions", hintedPositions)
+        .toString();
   }
 }

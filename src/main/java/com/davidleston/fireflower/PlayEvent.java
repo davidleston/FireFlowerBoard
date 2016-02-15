@@ -9,8 +9,8 @@ public final class PlayEvent extends TileRevealedEvent {
   }
 
   @Override
-  public void visit(Visitor visitor) {
-    visitor.doPlay(this);
+  public void handleEvent(Operation operation) {
+    operation.doPlay(this);
   }
 
   @Override
