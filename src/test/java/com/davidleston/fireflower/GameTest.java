@@ -256,7 +256,7 @@ public final class GameTest {
     );
   }
 
-  public void reorder(IntStream range) {
+  private void reorder(IntStream range) {
     ImmutableList<Player> players = ImmutableList.of(
         Player.create(
             events -> Action.play(0, event -> ImmutableSet.copyOf(range.iterator())),
